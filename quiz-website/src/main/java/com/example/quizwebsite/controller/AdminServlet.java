@@ -103,6 +103,7 @@ public class AdminServlet extends HttpServlet {
         String action = req.getParameter("action");
         if (action == null) {
             action = "";
+        }
             try {
                 switch (action) {
                     case "listUser":
@@ -111,13 +112,26 @@ public class AdminServlet extends HttpServlet {
                     case "delete":
                         deleteUser(req, resp);
                         break;
+                    case "findTeacher":
+                        findTeacher(req,resp);
+                        break;
                 }
             } catch (Exception ex) {
                 throw new ServletException(ex);
             }
         }
-    }
 
+  public void findTeacher(HttpServletRequest request , HttpServletResponse response){
+        String value = request.getParameter("nameTeacher");
+        List<User> listTeacher = userDAO.getUserByEmailorName(value);
+        request.setAttribute("listTeacher", listTeacher);
+      try {
+          request.getRequestDispatcher("admin/teacher_Management.jsp").forward(request, response);
+      } catch (ServletException | IOException e) {
+          throw new RuntimeException(e);
+      }
+
+  }
     private void listUser(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         List<User> listUser = new ArrayList<>();

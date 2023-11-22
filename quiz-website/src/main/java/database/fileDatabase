@@ -7,8 +7,11 @@ email varchar(50) not null,
 password varchar(50) not null,
 permission int not null,
     UNIQUE (name),
-    UNIQUE (email)
+    UNIQUE (email),
+status enum("accepted","not accepted") default "not accepted",
+timeLogin time
 );
+SELECT * FROM users WHERE email like "%T%" or name like "%T%";
 
 INSERT INTO users (name, email, password, permission) VALUES ('admin', 'administrator@gmail.com', 'admin01', 0);
 INSERT INTO users (name, email, password, permission) VALUES ('Nguyễn Văn Mười', 'a0163438922@gmail.com', 'a1234578', 2);
@@ -21,13 +24,9 @@ INSERT INTO users (name, email,  password, permission) VALUES ('Tùng gay', 'e01
 -- số 0 là admin
 -- số 1 là giảng viên
 -- số 2 là học viên
+update users set status = "accepted" where id = 3;
 
-SELECT * FROM users WHERE permission = 0;
-SELECT * FROM users WHERE permission = 1;
-SELECT * FROM users WHERE permission = 2;
-
-alter table users
-add column status enum('status', 'pending') after permission;
+select * from users;
 
 create table category(
 id int auto_increment primary key,

@@ -46,7 +46,31 @@ public class UserDAO implements IUserDAO {
         }
         return user;
     }
-
+    public List<User> getUserByEmailorName(String value) {
+        List<User> list = new ArrayList<>();
+        String query = "SELECT * FROM users WHERE email like '%" + value + "%' or name like '%" + value + "%'";
+        try (PreparedStatement statement = dataConnected.getConnection().prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    User user = new User();
+                    user.setId(resultSet.getInt("id"));
+                    user.setName(resultSet.getString("name"));
+                    user.setEmail(resultSet.getString("email"));
+                    user.setPassword(resultSet.getString("password"));
+                    user.setPermission(resultSet.getInt("permission"));
+                    user.setStatus(resultSet.getString("status"));
+                    java.sql.Time sqlTime = resultSet.getTime("timeLogin");
+                    if (sqlTime != null) {
+                        user.setTimeLogin(sqlTime.toLocalTime());
+                    }
+                    list.add(user);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
     @Override
     public List<User> getAllUsers() throws SQLException, ClassNotFoundException {

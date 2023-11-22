@@ -63,7 +63,6 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         boolean foundUser = false;
-
         if (email.trim().isEmpty() || password.trim().isEmpty()) {
             response.sendRedirect("login.jsp?error=invalid");
         } else {
@@ -78,7 +77,7 @@ public class LoginServlet extends HttpServlet {
                     } else if (user.getPermission() == 2) {
                         request.getRequestDispatcher("home/student_home.jsp").forward(request, response);
                     }
-                    break; // Di chuyển câu lệnh break vào đúng vị trí
+                    break;
                 }
             }
 
@@ -113,7 +112,7 @@ public class LoginServlet extends HttpServlet {
     public void logOut(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
         try {
-            response.sendRedirect("/login");
+            response.sendRedirect("/homex");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

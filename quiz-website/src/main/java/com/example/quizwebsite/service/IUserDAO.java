@@ -19,4 +19,11 @@ public interface IUserDAO {
 
     void addCategory(Category category);
 
+    //Phương thức để ban giáo viên mới đăng ký xong duyệt để unban
+    void addBlockUser(int id) throws SQLException, ClassNotFoundException;
+
+    //Phương thức để unban giáo viên mới đăng ký
+    void removeBlockUser(int id) throws SQLException, ClassNotFoundException;
+
+    List<Category> selectCategory();
 }

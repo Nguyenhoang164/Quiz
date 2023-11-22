@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name= "Categoty ",value = "/category")
 public class CategoryServlet extends HttpServlet {
@@ -46,14 +47,13 @@ public class CategoryServlet extends HttpServlet {
     public void addCategory(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException, ClassNotFoundException, ServletException {
         String nameCategory = req.getParameter("categories");
         String describe = req.getParameter("describe");
-        int id = Integer.parseInt(req.getParameter("id"));
-
-
-        req.setAttribute("id",id);
-        Category category = new Category(id, nameCategory, describe);
+        Category category = new Category();
+        category.setNameCategory(nameCategory);
+        category.setDescribe(describe);
         userDAO.addCategory(category);
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/Categories_List.jsp");
+        List<Category> categories = userDAO.selectCategory();
+        req.setAttribute("category",categories);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("category/Categories_List.jsp");
         requestDispatcher.forward(req,resp);
-        resp.sendRedirect("/Categories_List.jsp");
     }
 }

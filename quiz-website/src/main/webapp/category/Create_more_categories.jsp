@@ -148,7 +148,7 @@
 </nav>
 <div style="justify-content:center; width: 600px; margin: auto; margin-top: 265px ">
     <h1 style="color: #020053 ; text-align: center">Add Category</h1>
-    <form action="/category/Categories_List.jsp?action=category" method="post">
+    <form action="/category?action=category" method="post">
         <div class="mb-3">
             <label for="categories" class="form-label" style="color: #020053; text-align: left">Category Name:</label>
             <input type="text" id="categories" name="categories" class="form-control" required>

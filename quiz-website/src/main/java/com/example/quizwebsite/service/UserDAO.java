@@ -5,7 +5,6 @@ import com.example.quizwebsite.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class UserDAO implements IUserDAO {
@@ -19,7 +18,7 @@ public class UserDAO implements IUserDAO {
     }
 
     private String username = "root";
-    private String password = "123123";
+    private String password = "1234";
     private String url = "jdbc:mysql://localhost:3306/pik_quiz";
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
@@ -138,33 +137,63 @@ public class UserDAO implements IUserDAO {
     }
 
     public void addCategory(Category category) {
-        String query = "INSERT INTO pik_quiz.category (nameCategory,describeCategory) VALUES (?, ?)";
+        String query = "INSERT INTO category (nameCategory,describes) VALUES (?, ?)";
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            PreparedStatement preparedStatement = getConnection().prepareStatement(query);
             {
                 preparedStatement.setString(1, category.getNameCategory());
                 preparedStatement.setString(2, category.getDescribe());
             }
             preparedStatement.executeUpdate();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
+    @Override
+    //Phương thức để ban giáo viên mới đăng ký xong duyệt để unban
+    public void addBlockUser(int id) throws SQLException, ClassNotFoundException {
+        String query = "update user set status = 'block' where id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeQuery();
+        connection.close();
+    }
 
+    @Override
+    //Phương thức để unban giáo viên mới đăng ký
+    public void removeBlockUser(int id) throws SQLException, ClassNotFoundException {   
+        String query = "update user set status = 'working' where id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
+        connection.close();
+    }
+
+    @Override
+    public List<Category> selectCategory() {
+        List<Category> categories = new ArrayList<>();
+        try(PreparedStatement preparedStatement = getConnection().prepareStatement("select * from category " );) {
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                int id = rs.getInt("id");
+                String nameCategory = rs.getString("nameCategory");
+                String describes = rs.getString("describes");
+                categories.add(new Category(id,nameCategory,describes)) ;
+            }
+
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return  categories;
+    }
 
 //    public List<User> selectAllUsers() {
-//
-//
 //        List<User> users = new ArrayList<>();
 //        try (Connection connection = getConnection();
-//
-//
 //             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);) {
 //            System.out.println(preparedStatement);
 //            ResultSet rs = preparedStatement.executeQuery();
-//
-//
 //            while (rs.next()) {
 //                String name = rs.getString("name");
 //                String email = rs.getString("email");
@@ -178,6 +207,5 @@ public class UserDAO implements IUserDAO {
 //        }
 //        return users;
 //    }
-
 }
 

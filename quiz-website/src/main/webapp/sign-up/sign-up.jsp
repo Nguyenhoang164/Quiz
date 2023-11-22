@@ -143,9 +143,26 @@
             if (pass === "" || passwordConfirm === "") {
                 notify.textContent = "";
             } else if (pass === passwordConfirm) {
-                notify.textContent = "Check!";
+                notify.textContent = "";
             } else {
                 notify.textContent = "Password mismatch!";
+
+                // Hàm chuyển hướng đến trang "/login/login.jsp"
+                function redirectToLoginPage() {
+                    window.location.href = "/login/login.jsp"; // Thay đổi "/login/login.jsp" thành URL của trang login thực tế
+                    // Sau khi đăng ký thành công, chuyển hướng đến trang login
+                    function registrationSuccess() {
+                        alert("Đăng ký thành công!");
+                        redirectToLoginPage(); // Gọi hàm chuyển hướng
+                    }
+
+                    function handleRegistration() {
+                        // Thực hiện xử lý đăng ký ở đây
+
+                        // Sau khi đăng ký thành công, gọi hàm chuyển hướng
+                        registrationSuccess();
+                    }
+                }
             }
         }
     </script>

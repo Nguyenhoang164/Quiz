@@ -10,6 +10,8 @@
         body {
             padding: 40px;
             background: #FBEAEB;
+            color: #333;
+            font-family: Arial, sans-serif;
         }
 
         .form-container {
@@ -48,8 +50,8 @@
             padding: 10px;
             border-radius: 5px;
             border: none;
-            background-color: #020053;
-            color: #fff;
+            background-color: #38368b;
+            color: #FBEAEB;
             font-weight: bold;
             cursor: pointer;
         }
@@ -83,6 +85,15 @@
             border: 1px solid #ccc;
             box-sizing: border-box; /* Ensure the select box includes padding and border in its width */
         }
+
+        .alert-success {
+            background-color: #FBEAEB;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #D4EDDA;
+        }
     </style>
 </head>
 <body>
@@ -91,18 +102,17 @@
     <form id="form-signup" action="/login?action=login" method="post">
         <div class="form-group">
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" class="form-control" style="width: 362px; height: auto"
-                   required>
+            <input type="email" id="email" name="email" class="form-control" required>
         </div>
 
         <div class="form-group">
             <label for="password">Password:</label>
             <input type="password" id="password" onchange="checkPassword()" name="password" class="form-control"
-                   minlength="6" style="width: 362px; height: auto" required>
+                   minlength="6" required>
         </div>
 
         <div class="d-grid">
-            <input type="submit" value="Login" style=" background-color: #38368b;color: #FBEAEB" class="btn btn-primary">
+            <input type="submit" value="Login" class="btn btn-primary">
         </div>
     </form>
 
@@ -119,10 +129,18 @@
     <div class="text-center mt-3">
         <p style="color: #020053">Love the bunny? <a href="/home/home.jsp">Back home</a></p>
     </div>
+    <div>
+
+    </div>
+    <% if (request.getAttribute("successMessage") != null) { %>
+    <div class="alert alert-success" style="text-align: center">
+        <span class="checkmark"></span>
+        <%= request.getAttribute("successMessage")%>
+    </div>
+    <% } %>
 </div>
+<%-- Kiểm tra xem có thông báo thành công không --%>
+
 <script src="js/bootstrap.min.js"></script>
-</body>
-</html>
-</div>
 </body>
 </html>

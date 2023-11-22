@@ -11,6 +11,11 @@ public class Category {
         this.describe = describe;
     }
 
+    public Category(String nameCategory, String describe) {
+        this.nameCategory = nameCategory;
+        this.describe = describe;
+    }
+
     public Category() {
     }
 

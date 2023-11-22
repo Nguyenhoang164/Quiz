@@ -71,8 +71,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#" style="color: #020053">Edit Account</a></li>
-                        <li><a class="dropdown-item" href="#" onclick="confirmLogout()" style="color: #020053">Log
-                            Out</a></li>
+
 
                         <li><a class="dropdown-item" href="#" style="color: #020053">Delete Account</a></li>
                         <li>
@@ -82,7 +81,11 @@
                             Management</a></li>
                         <li><a class="dropdown-item" href="/admin/student_Management.jsp" style="color: #020053">Student
                             Management</a></li>
-                        ```html
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/login/login.jsp" onclick="confirmLogout()"
+                               style="color: #020053">Log Out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -106,8 +109,9 @@
                 <td class="rounded">${list.getName()}</td>
                 <td class="rounded">${list.getEmail()}</td>
                 <td>
-                    <a href="admin?action=delete&id=${list.getId()}&permission=${list.getPermission()}">
-                        <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+                    <a href="admin?action=delete&id=${list.getId()}&permission=${list.getPermission()}"
+                       onclick="confirmDelete(event)"> <!-- Sửa đổi đây -->
+                        <button class="btn btn-danger">Delete</button>
                     </a>
                     <button class="btn btn-primary" onclick="editUser()">Edit</button>
                 </td>
@@ -118,12 +122,31 @@
 </div>
 <!-- ... -->
 <script>
-    function editUser() {
-        // Chỉnh sửa người dùng
-        // ...
+    function confirmLogout(eventt) {
+        eventt.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+        if (confirm("Bạn chắc chắn muốn xóa người dùng này chứ?")) {
+            // Nếu người dùng bấm Đồng ý
+            // Thực hiện hành động của người dùng ở đây
+            window.location.href = eventt.currentTarget.getAttribute("href"); // Chuyển hướng đến URL xóa người dùng
+        } else {
+            // Nếu người dùng bấm Không
+            // Không thực hiện hành động xóa
+        }
     }
-    function confirmDelete(){
-        window.location.reload();
+
+    function confirmDelete(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+        if (confirm("Bạn chắc chắn muốn xóa người dùng này chứ?")) {
+            // Nếu người dùng bấm Đồng ý
+            // Thực hiện hành động của người dùng ở đây
+            window.location.href = event.currentTarget.getAttribute("href"); // Chuyển hướng đến URL xóa người dùng
+        } else {
+            // Nếu người dùng bấm Không
+            // Không thực hiện hành động xóa
+        }
     }
-</script></body>
+</script>
+</body>
 </html>

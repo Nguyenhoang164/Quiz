@@ -36,9 +36,13 @@ public class SignUpServlet extends HttpServlet {
             case "register":
                 try {
                     signUpNewUser(request,response);
+                    request.setAttribute("successMessage", "Đăng ký thành công!");
+                    request.getRequestDispatcher("/login/login.jsp").forward(request, response);
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (ServletException e) {
                     throw new RuntimeException(e);
                 }
                 break;
@@ -60,6 +64,5 @@ public class SignUpServlet extends HttpServlet {
         }
         User newUser = new User(name, email, password, permission);
         userDAO.addUser(newUser);
-        response.sendRedirect("/signup");
     }
 }

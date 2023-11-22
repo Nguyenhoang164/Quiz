@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -128,16 +129,24 @@
             <th style="color: #020053">Description</th>
             <th style="color: #020053">Actions</th>
         </tr>
+        <c:forEach items="${category}" var="category">
+
+            <tr>
+                <td>${category.nameCategory}</td>
+                <td>${category.describe}</td>
+                <td></td>
+            </tr>
+        </c:forEach>
+
         </thead>
         <tbody id="userTableBody">
-        <!-- User data will be dynamically inserted here -->
         </tbody>
     </table>
 </div>
 <footer>
-<div class="text-center mt-3">
-    <p style="color: #020053">Back here => <a href="/home/teacher_home.jsp">Back home</a></p>
-</div>
+    <div class="text-center mt-3">
+        <p style="color: #020053">Back here => <a href="/home/teacher_home.jsp">Back home</a></p>
+    </div>
 </footer>
 </body>
 </html>

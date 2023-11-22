@@ -48,6 +48,11 @@
                 <span class="cute-text" STYLE="color: #020053">Pik Quizizz</span>
             </strong>
         </a>
+        <div>
+            <form action="admin?action=findTeacher" method="post">
+                <input type="text" name="nameTeacher" style="width: 200px;background-color: white;border-radius: 15px">
+            </form>
+        </div>
         <style>
             .cute-text {
                 display: inline-block;

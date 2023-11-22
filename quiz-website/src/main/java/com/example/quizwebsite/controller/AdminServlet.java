@@ -15,13 +15,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(value = "/admin")
+@WebServlet(name = "AdminServlet",value = "/admin")
 public class AdminServlet extends HttpServlet {
     private UserDAO userDAO;
 
     @Override
     public void init() throws ServletException {
-        super.init();
         userDAO = new UserDAO();
     }
 
@@ -75,14 +74,9 @@ public class AdminServlet extends HttpServlet {
 
     private void listUser(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
-        List<User> listUser = null;
+        List<User> listUser = new ArrayList<>();
         try {
             listUser = userDAO.getAllUsers();
-            for (User list : listUser
-            ) {
-                System.out.println(list.getEmail());
-                System.out.println(list.getName());
-            }
             request.setAttribute("listUser", listUser);
             RequestDispatcher dispatcher = request.getRequestDispatcher("user/list.jsp");
             dispatcher.forward(request, response);

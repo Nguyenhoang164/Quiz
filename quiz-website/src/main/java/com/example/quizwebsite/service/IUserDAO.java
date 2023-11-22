@@ -26,4 +26,5 @@ public interface IUserDAO {
     void removeBlockUser(int id) throws SQLException, ClassNotFoundException;
 
     List<Category> selectCategory();
+    User getUserByEmail(String email);
 }

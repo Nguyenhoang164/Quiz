@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name= "Categoty ",value = "/category")
+@WebServlet(name= "CategoryServlet",value = "/category")
 public class CategoryServlet extends HttpServlet {
     UserDAO userDAO = new UserDAO();
 

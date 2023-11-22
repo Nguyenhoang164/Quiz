@@ -1,0 +1,36 @@
+create database pik_quiz;
+use pik_quiz;
+create table users (
+id int auto_increment primary key,
+name varchar(90),
+email varchar(50) not null,
+password varchar(50) not null,
+permission int not null,
+    UNIQUE (name),
+    UNIQUE (email)
+);
+
+INSERT INTO users (name, email, password, permission) VALUES ('admin', 'administrator@gmail.com', 'admin01', 0);
+INSERT INTO users (name, email, password, permission) VALUES ('Nguyễn Văn Mười', 'a0163438922@gmail.com', 'a1234578', 2);
+INSERT INTO users (name, email,  password, permission) VALUES ('Tú Lấn Cấn', 'b0163438922@gmail.com', 'b12345678', 1);
+INSERT INTO users (name, email,  password, permission) VALUES ('Minh thông Thái', 'c0163438922@gmail.com', 'b12345678', 2);
+INSERT INTO users (name, email,  password, permission) VALUES ('Thái thông Minh', 'd0163438922@gmail.com', 'b12345678', 2);
+INSERT INTO users (name, email,  password, permission) VALUES ('Tùng gay', 'e0163438922@gmail.com', 'b12345678', 1);
+
+-- permission:
+-- số 0 là admin
+-- số 1 là giảng viên
+-- số 2 là học viên
+
+SELECT * FROM users WHERE permission = 0;
+SELECT * FROM users WHERE permission = 1;
+SELECT * FROM users WHERE permission = 2;
+
+alter table users
+add column status enum('status', 'pending') after permission;
+
+create table category(
+id int auto_increment primary key,
+nameCategory varchar(100) UNIQUE,
+describes varchar(100)
+);

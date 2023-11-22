@@ -1,5 +1,6 @@
 package com.example.quizwebsite.model;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 public class User {
@@ -9,6 +10,9 @@ public class User {
     private String email;
     private Date createAt;
     private int permission;
+    private LocalTime timeLogin;
+    private String status;
+
 
     public User() {
         this.id = id;
@@ -21,12 +25,13 @@ public class User {
         this.name = name;
     }
 
-    public User(int id, String name, String email, String password, int permission) {
+    public User(int id, String name, String email, String password, int permission,String status) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.permission = permission;
+        this.status = status;
     }
 
 
@@ -48,6 +53,22 @@ public class User {
         this.name = name;
         this.email = email;
         this.id = id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalTime getTimeLogin() {
+        return timeLogin;
+    }
+
+    public void setTimeLogin(LocalTime timeLogin) {
+        this.timeLogin = timeLogin;
     }
 
     public int getId() {

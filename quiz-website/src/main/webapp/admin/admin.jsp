@@ -77,9 +77,9 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="/admin/teacher_Management.jsp" style="color: #020053">Teacher
+                        <li><a class="dropdown-item" href="admin?action=ShowTeacherList" style="color: #020053">Teacher
                             Management</a></li>
-                        <li><a class="dropdown-item" href="/admin/student_Management.jsp" style="color: #020053">Student
+                        <li><a class="dropdown-item" href="admin?action=ShowStudentList" style="color: #020053">Student
                             Management</a></li>
                         <li>
                             <hr class="dropdown-divider">
@@ -104,16 +104,16 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="list" items="${requestScope.u}">
+        <c:forEach var="list" items="${requestScope.listUser}">
             <tr>
                 <td class="rounded">${list.getName()}</td>
+                <td class="rounded">${list.getEmail()}</td>
                 <td class="rounded">${list.getEmail()}</td>
                 <td>
                     <a href="admin?action=delete&id=${list.getId()}&permission=${list.getPermission()}"
                        onclick="confirmDelete(event)"> <!-- Sửa đổi đây -->
                         <button class="btn btn-danger">Delete</button>
                     </a>
-                    <button class="btn btn-primary" onclick="editUser()">Edit</button>
                 </td>
             </tr>
         </c:forEach>

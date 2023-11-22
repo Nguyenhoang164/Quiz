@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,11 +111,32 @@
             <th>Name</th>
             <th>Email</th>
             <th>Registration Date</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody id="userTableBody">
-        <!-- User data will be dynamically inserted here -->
+        <c:forEach var="list" items="${requestScope.listTeacher}">
+            <tr>
+                <td class="rounded">${list.getName()}</td>
+                <td class="rounded">${list.getEmail()}</td>
+                <td class="rounded">${list.timeLogin}</td>
+                <td class="rounded">${list.status}</td>
+
+                <td>
+                    <a style="text-decoration: none" href="admin?action=delete&id=${list.getId()}&permission=${list.getPermission()}"
+                       onclick="confirmDelete(event)"> <!-- Sửa đổi đây -->
+                        <button class="btn btn-danger">Delete</button>
+                    </a>
+                    <c:if test="${list.status == 'not accepted'}">
+                        <a style="text-decoration: none" href="admin?action=CheckTeacher&id=${list.getId()}"
+                           onclick="confirmDelete(event)"> <!-- Sửa đổi đây -->
+                            <button class="btn btn-danger">accepted</button>
+                        </a>
+                    </c:if>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 </div>

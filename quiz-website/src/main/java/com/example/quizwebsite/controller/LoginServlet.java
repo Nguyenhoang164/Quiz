@@ -71,10 +71,13 @@ public class LoginServlet extends HttpServlet {
                 if (email.equals(user.getEmail()) && password.equals(user.getPassword())) {
                     foundUser = true;
                     if (user.getPermission() == 0) {
+                        userDAO.updateTimeLogin(email);
                         showUser(request, response);
                     } else if (user.getPermission() == 1) {
+                        userDAO.updateTimeLogin(email);
                         request.getRequestDispatcher("home/teacher_home.jsp").forward(request, response);
                     } else if (user.getPermission() == 2) {
+                        userDAO.updateTimeLogin(email);
                         request.getRequestDispatcher("home/student_home.jsp").forward(request, response);
                     }
                     break;

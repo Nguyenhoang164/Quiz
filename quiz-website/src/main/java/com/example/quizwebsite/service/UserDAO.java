@@ -4,6 +4,7 @@ import com.example.quizwebsite.model.Category;
 import com.example.quizwebsite.model.User;
 
 import java.sql.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +61,12 @@ public class UserDAO implements IUserDAO {
             user.setEmail(resultSet.getString("email"));
             user.setPassword(resultSet.getString("password"));
             user.setPermission(resultSet.getInt("permission"));
+            user.setStatus(resultSet.getString("status"));
+            java.sql.Time sqlTime = resultSet.getTime("timeLogin");
+            if (sqlTime != null) {
+                user.setTimeLogin(sqlTime.toLocalTime());
+            }
+
             userList.add(user);
         }
         return userList;
@@ -113,9 +120,10 @@ public class UserDAO implements IUserDAO {
         String email = resultSet.getString("email");
         String password = resultSet.getString("password");
         int permission = resultSet.getInt("permission");
+        String status = resultSet.getString("status");
         // Lấy các trường thông tin khác của người dùng từ ResultSet
         // và tạo đối tượng User
-        return new User(id, username, email, password, permission);
+        return new User(id, username, email, password, permission,status);
     }
 
     public void addCategory(Category category) {
@@ -134,20 +142,11 @@ public class UserDAO implements IUserDAO {
 
     @Override
     //Phương thức để ban giáo viên mới đăng ký xong duyệt để unban
-    public void addBlockUser(int id) throws SQLException, ClassNotFoundException {
-        String query = "update user set status = 'block' where id = ?";
+    public void checkUser(int id) throws SQLException, ClassNotFoundException {
+        String query = "update users set status = ? where id = ?";
         PreparedStatement preparedStatement = dataConnected.getConnection().prepareStatement(query);
-        preparedStatement.setInt(1, id);
-        preparedStatement.executeQuery();
-        dataConnected.getConnection().close();
-    }
-
-    @Override
-    //Phương thức để unban giáo viên mới đăng ký
-    public void removeBlockUser(int id) throws SQLException, ClassNotFoundException {   
-        String query = "update user set status = 'working' where id = ?";
-        PreparedStatement preparedStatement = dataConnected.getConnection().prepareStatement(query);
-        preparedStatement.setInt(1, id);
+        preparedStatement.setString(1,"accepted");
+        preparedStatement.setInt(2, id);
         preparedStatement.executeUpdate();
         dataConnected.getConnection().close();
     }
@@ -169,6 +168,17 @@ public class UserDAO implements IUserDAO {
         }
         return  categories;
     }
+    @Override
+    public void updateTimeLogin(String email){
+        try {
+            Connection connection = dataConnected.getConnection();
+            String query = "update users set timeLogin = '" + LocalTime.now() +"' where email = '" + email +"'";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.executeUpdate();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
 
+    }
 }
 

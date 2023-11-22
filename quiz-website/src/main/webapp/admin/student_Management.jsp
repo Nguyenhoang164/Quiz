@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -94,7 +95,31 @@
         </div>
     </div>
 </nav>
-
+<div class="container mt-4">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="list" items="${requestScope.listStudent}">
+            <tr>
+                <td class="rounded">${list.getName()}</td>
+                <td class="rounded">${list.getEmail()}</td>
+                <td>
+                    <a style="text-decoration: none" href="admin?action=delete&id=${list.getId()}&permission=${list.getPermission()}"
+                       onclick="confirmDelete(event)"> <!-- Sửa đổi đây -->
+                        <button class="btn btn-danger">Delete</button>
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</div>
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>

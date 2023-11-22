@@ -35,23 +35,69 @@ public class AdminServlet extends HttpServlet {
                 case "delete":
                     deleteUser(req, resp);
                     break;
+                case "ShowStudentList":
+                    showStudentList(req, resp);
+                    break;
+                case "ShowTeacherList":
+                    showTeacherList(req, resp);
+                    break;
+                case "CheckTeacher":
+                    checkTeacher(req, resp);
+                    break;
                 default:
-                    showMainAdminPage(req,resp);
+                    showMainAdminPage(req, resp);
                     break;
             }
         } catch (Exception ex) {
             throw new ServletException(ex);
         }
     }
-     public void showMainAdminPage(HttpServletRequest request , HttpServletResponse response){
-         try {
-             List<User> userList = userDAO.getAllUsers();
-             request.setAttribute("u",userList);
-             request.getRequestDispatcher("admin/admin.jsp").forward(request, response);
-         } catch (ServletException | IOException | SQLException | ClassNotFoundException e) {
-             throw new RuntimeException(e);
-         }
-     }
+
+    public void showStudentList(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            List<User> listAllUser = userDAO.getAllUsers();
+            List<User> listStudent = new ArrayList<>();
+            for (User user : listAllUser) {
+                if (user.getPermission() == 2) {
+                    listStudent.add(user);
+                }
+            }
+            request.setAttribute("listStudent", listStudent);
+            request.getRequestDispatcher("admin/student_Management.jsp").forward(request, response);
+        } catch (SQLException | ClassNotFoundException | ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void showTeacherList(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            List<User> listAllUser = userDAO.getAllUsers();
+            List<User> listTeacher = new ArrayList<>();
+            for (User user : listAllUser) {
+                if (user.getPermission() == 1) {
+                    listTeacher.add(user);
+
+                }
+            }
+            request.setAttribute("listTeacher", listTeacher);
+            request.getRequestDispatcher("admin/teacher_Management.jsp").forward(request, response);
+        } catch (SQLException | ClassNotFoundException | ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void showMainAdminPage(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            List<User> userList = userDAO.getAllUsers();
+            request.setAttribute("listUser", userList);
+            request.getRequestDispatcher("admin/admin.jsp").forward(request, response);
+        } catch (ServletException | IOException | SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
@@ -89,10 +135,10 @@ public class AdminServlet extends HttpServlet {
         int id = Integer.parseInt(httpServletRequest.getParameter("id"));
         int permission = Integer.parseInt(httpServletRequest.getParameter("permission"));
         try {
-            if (permission == 0){
+            if (permission == 0) {
                 System.out.println("cannotDelete");
 
-            }else {
+            } else {
                 userDAO.deleteUser(id);
                 httpServletResponse.sendRedirect("/admin");
             }
@@ -103,36 +149,24 @@ public class AdminServlet extends HttpServlet {
         }
     }
 
-//    public void blockUserById (HttpServletRequest request, HttpServletResponse response) throws SQLException, ClassNotFoundException, ServletException, IOException {
-//        int id = Integer.parseInt(request.getParameter("id"));
-//        User user = userDAO.getUserById(id);
-//        if (user.getPermission().equals("admin")) {
-//            request.setAttribute("message", "khong the xoa doi tuong admin");
-//            List<User> defaultListUser = userDAO.getAllUser();
-//            request.setAttribute("defaultListUser", defaultListUser);
-//            request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
-//        } else {
-//            if (user.getStatus() == null) {
-//                userDAO.addBlockUser(id);
-//                request.setAttribute("messageBlock", "thanh cong");
-//                List<User> defaultListUser = userDAO.getAllUser();
-//                request.setAttribute("defaultListUser", defaultListUser);
-//                request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
-//            } else {
-//                if (user.getStatus().equals("working")) {
-//                    userDAO.addBlockUser(id);
-//                    List<User> defaultListUser = userDAO.getAllUser();
-//                    request.setAttribute("messageBlock", "thanh cong");
-//                    request.setAttribute("defaultListUser", defaultListUser);
-//                    request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
-//                } else {
-//                    userDAO.removeBlockUser(id);
-//                    List<User> defaultListUser = userDAO.getAllUser();
-//                    request.setAttribute("messageRemove", "thanh cong");
-//                    request.setAttribute("defaultListUser", defaultListUser);
-//                    request.getRequestDispatcher("/admin/home.jsp").forward(request, response);
-//                }
-//            }
-//        }
-//    }
+    public void checkTeacher(HttpServletRequest request, HttpServletResponse response) throws SQLException, ClassNotFoundException, ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        User user = userDAO.getUserById(id);
+        if (user.getStatus() != null) {
+            if (user.getStatus().equals("not accepted")) {
+                userDAO.checkUser(id);
+                List<User> listAllUser = userDAO.getAllUsers();
+                List<User> listTeacher = new ArrayList<>();
+                for (User users : listAllUser) {
+                    if (users.getPermission() == 1) {
+                        listTeacher.add(user);
+
+                    }
+                }
+                request.setAttribute("listTeacher", listTeacher);
+                request.getRequestDispatcher("admin/teacher_Management.jsp").forward(request, response);
+            }
+        }
+    }
 }
+

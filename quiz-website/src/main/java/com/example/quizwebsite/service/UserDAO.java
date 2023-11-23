@@ -63,7 +63,9 @@ public class UserDAO implements IUserDAO {
                     if (sqlTime != null) {
                         user.setTimeLogin(sqlTime.toLocalTime());
                     }
-                    list.add(user);
+                    if (user.getPermission() == 1) {
+                        list.add(user);
+                    }
                 }
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -150,19 +152,6 @@ public class UserDAO implements IUserDAO {
         return new User(id, username, email, password, permission,status);
     }
 
-    public void addCategory(Category category) {
-        String query = "INSERT INTO category (nameCategory,describes) VALUES (?, ?)";
-        try {
-            PreparedStatement preparedStatement = dataConnected.getConnection().prepareStatement(query);
-            {
-                preparedStatement.setString(1, category.getNameCategory());
-                preparedStatement.setString(2, category.getDescribe());
-            }
-            preparedStatement.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     //Phương thức để ban giáo viên mới đăng ký xong duyệt để unban
@@ -173,24 +162,6 @@ public class UserDAO implements IUserDAO {
         preparedStatement.setInt(2, id);
         preparedStatement.executeUpdate();
         dataConnected.getConnection().close();
-    }
-
-    @Override
-    public List<Category> selectCategory() {
-        List<Category> categories = new ArrayList<>();
-        try(PreparedStatement preparedStatement = dataConnected.getConnection().prepareStatement("select * from category " );) {
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()){
-                int id = rs.getInt("id");
-                String nameCategory = rs.getString("nameCategory");
-                String describes = rs.getString("describes");
-                categories.add(new Category(id,nameCategory,describes)) ;
-            }
-
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return  categories;
     }
     @Override
     public void updateTimeLogin(String email){

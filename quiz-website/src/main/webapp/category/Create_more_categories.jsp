@@ -168,8 +168,8 @@
     </form>
 
     <div class="text-center mt-3">
-        <p>Nothing to do? <a href="/home/teacher_home.jsp" style="color: #020053">Back to Home</a></p>
-        <p>List Categories <a href="/category/Categories_List.jsp" style="color: #020053">Here</a></p>
+        <p>Nothing to do? <a href="/home" style="color: #020053">Back to Home</a></p>
+        <p>List Categories <a href="/category" style="color: #020053">Here</a></p>
     </div>
 </div>
 <footer></footer>

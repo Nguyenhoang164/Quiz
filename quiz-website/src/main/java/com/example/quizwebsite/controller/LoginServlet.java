@@ -75,10 +75,10 @@ public class LoginServlet extends HttpServlet {
                         showUser(request, response);
                     } else if (user.getPermission() == 1) {
                         userDAO.updateTimeLogin(email);
-                        request.getRequestDispatcher("home/teacher_home.jsp").forward(request, response);
+                        response.sendRedirect("teacher");
                     } else if (user.getPermission() == 2) {
                         userDAO.updateTimeLogin(email);
-                        request.getRequestDispatcher("home/student_home.jsp").forward(request, response);
+                        response.sendRedirect("student");
                     }
                     break;
                 }

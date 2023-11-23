@@ -120,6 +120,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
+<div>create more category <a href="category?action=createCategory" style="text-decoration: none">Here</a></div>
 <div class="container">
     <h2 style="text-align: center; color: #020053">Category List</h2>
     <table class="table table-striped">
@@ -129,7 +130,7 @@
             <th style="color: #020053">Description</th>
             <th style="color: #020053">Actions</th>
         </tr>
-        <c:forEach items="${category}" var="category">
+        <c:forEach items="${requestScope.category}" var="category">
 
             <tr>
                 <td>${category.nameCategory}</td>

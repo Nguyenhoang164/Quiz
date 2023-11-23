@@ -18,11 +18,8 @@ public interface IUserDAO {
 
     void deleteUser(int userId) throws SQLException, ClassNotFoundException;
 
-    void addCategory(Category category);
-
     //Phương thức để ban giáo viên mới đăng ký xong duyệt để unban
     void checkUser(int id) throws SQLException, ClassNotFoundException;
-    List<Category> selectCategory();
     User getUserByEmail(String email);
 
 }
